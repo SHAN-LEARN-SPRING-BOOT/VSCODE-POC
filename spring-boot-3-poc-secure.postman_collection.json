@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "619a1c1b-eaba-409c-bdba-3a8394d81642",
+		"name": "spring-boot-3-poc-secure",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14919347"
+	},
+	"item": [
+		{
+			"name": "0) OpenID ENDPOINTS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{KEYCLOAK_SERVER}}{{KEYCLOAK_ENDPOINT_OPENID_CONFIGURATION}}",
+					"host": [
+						"{{KEYCLOAK_SERVER}}{{KEYCLOAK_ENDPOINT_OPENID_CONFIGURATION}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1) GET Token -- User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "sb-user-2",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "sb-user-2",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "microprofile-jwt",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{CLIENT_ID}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{KEYCLOAK_SERVER}}{{KEYCLOAK_ENDPOINT_GET_TOKEN}}",
+					"host": [
+						"{{KEYCLOAK_SERVER}}{{KEYCLOAK_ENDPOINT_GET_TOKEN}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "1) GET Token -- Admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "password",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "sb-admin-1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "sb-admin-1",
+							"type": "text"
+						},
+						{
+							"key": "scope",
+							"value": "microprofile-jwt",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "{{CLIENT_ID}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{KEYCLOAK_SERVER}}{{KEYCLOAK_ENDPOINT_GET_TOKEN}}",
+					"host": [
+						"{{KEYCLOAK_SERVER}}{{KEYCLOAK_ENDPOINT_GET_TOKEN}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hello (Global)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ACCESS_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{APP_SERVER}}{{APP_DEMO_ENDPOINT}}/hello",
+					"host": [
+						"{{APP_SERVER}}{{APP_DEMO_ENDPOINT}}"
+					],
+					"path": [
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hello (Admin)",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{ACCESS_TOKEN}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{APP_SERVER}}{{APP_DEMO_ENDPOINT}}/hello-2",
+					"host": [
+						"{{APP_SERVER}}{{APP_DEMO_ENDPOINT}}"
+					],
+					"path": [
+						"hello-2"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "APP_SERVER",
+			"value": "http://localhost:8081",
+			"type": "string"
+		},
+		{
+			"key": "APP_DEMO_ENDPOINT",
+			"value": "/api/v1/demo",
+			"type": "string"
+		},
+		{
+			"key": "KEYCLOAK_SERVER",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "KEYCLOAK_ENDPOINT_OPENID_CONFIGURATION",
+			"value": "/realms/{{KEYCLOAK_REALM}}/.well-known/openid-configuration",
+			"type": "string"
+		},
+		{
+			"key": "KEYCLOAK_REALM",
+			"value": "shan-realm",
+			"type": "string"
+		},
+		{
+			"key": "KEYCLOAK_ENDPOINT_GET_TOKEN",
+			"value": "/realms/{{KEYCLOAK_REALM}}/protocol/openid-connect/token",
+			"type": "string"
+		},
+		{
+			"key": "CLIENT_ID",
+			"value": "sb-poc-client",
+			"type": "string"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxZVhwRnlyWUw0UDlGLUlfRU5KZWFvQUpxeFlkdXRKZTN0Z2JudU4xSkVvIn0.eyJleHAiOjE3MTAwMDM5MTIsImlhdCI6MTcxMDAwMzYxMiwianRpIjoiMDkxZDdiYjgtYzAyZi00NDdkLTkxYzMtYmUzOTQyYzFhM2QyIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL3JlYWxtcy9zaGFuLXJlYWxtIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6IjQ1MDgzMWRjLWE2MzQtNDQ0Mi1iMDFhLTZkZGE1MmFmYWQyYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InNiLXBvYy1jbGllbnQiLCJzZXNzaW9uX3N0YXRlIjoiZDI0MmFjZWMtODViMy00OWYzLTk1YzItODRhOGNhYzg5MTI1IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwOi8vbG9jYWxob3N0OjgwODEiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJkZWZhdWx0LXJvbGVzLXNoYW4tcmVhbG0iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX0sInNiLXBvYy1jbGllbnQiOnsicm9sZXMiOlsic2ItYWRtaW4tcm9sZSJdfX0sInNjb3BlIjoicHJvZmlsZSBtaWNyb3Byb2ZpbGUtand0IGVtYWlsIiwic2lkIjoiZDI0MmFjZWMtODViMy00OWYzLTk1YzItODRhOGNhYzg5MTI1IiwidXBuIjoic2ItYWRtaW4tMSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IkFkbWluIFVzZXIiLCJncm91cHMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiIsImRlZmF1bHQtcm9sZXMtc2hhbi1yZWFsbSJdLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzYi1hZG1pbi0xIiwiZ2l2ZW5fbmFtZSI6IkFkbWluIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJhZG1pbkBnbWFpbC5jb20ifQ.Fu05KElFGILUDkDn9c1Yu6c0C4-xHt3wSLdTWd6HzA1Qea8W4cOVDoQ2oBlQB8hWYFHG5aqtqJzf40LiMR1wSPUbxzBvWyXSl2lDOz2n-dGMfpg7uWE6qip122Yg5H6hRbFfVIBeGIGpxdr3K5PhyEuTtZk354Sbn_wHUuK79wG_C4F_GrPmIxs-RjHu5DOBzh3ZPU2xcFAYqhi7VeWDuK6nHVK0idzlODz7PkUls3L_tBhqJ4AnFfIsrrAYxbDP9RBhA2gYzja1J6zOIBHgnB_nNyiJJItiAM16IKnPuuS_sgCAQNJl65Y1897A1G-EQu5olE516WzMo4poEn30dw",
+			"type": "string"
+		}
+	]
+}
